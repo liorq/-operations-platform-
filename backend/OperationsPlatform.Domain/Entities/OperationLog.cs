@@ -1,6 +1,6 @@
 namespace OperationsPlatform.Domain.Entities;
 
-/// <summary>One row for every successful calculation. This is the history required by chapter B.</summary>
+/// <summary>One row for every successful calculation: the history of the platform.</summary>
 public class OperationLog
 {
     public long Id { get; set; }

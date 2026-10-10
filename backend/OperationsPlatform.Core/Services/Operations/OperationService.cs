@@ -80,7 +80,7 @@ public class OperationService : IOperationService
     private async Task<Operation> GetOrThrowAsync(int id, CancellationToken cancellationToken) =>
         await _operations.GetByIdAsync(id, cancellationToken) ?? throw new UserInputException("פעולה לא נמצאה");
 
-    /// <summary>Validates every field of the dto, including the definition itself, then copies it onto the entity.</summary>
+    /// <summary>Validates the dto with FluentValidation, copies it onto the entity, then asks the executor of its kind to check the definition.</summary>
     private async Task ApplyValidatedAsync(Operation operation, OperationDto dto, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(dto, cancellationToken);

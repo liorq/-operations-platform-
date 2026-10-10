@@ -8,7 +8,7 @@ namespace OperationsPlatform.Core.Executors;
 
 /// <summary>
 /// Calls an external JSON API and returns one value from its response.
-/// This is how "weather by latitude and longitude" from the exercise is delivered without writing new code.
+/// This is how "weather by latitude and longitude" is delivered without writing new code.
 /// </summary>
 public class HttpExecutor : IOperationExecutor
 {

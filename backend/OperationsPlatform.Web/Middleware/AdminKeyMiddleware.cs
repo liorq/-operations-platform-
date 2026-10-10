@@ -7,7 +7,7 @@ using OperationsPlatform.Web.Routes;
 namespace OperationsPlatform.Web.Middleware;
 
 /// <summary>
-/// Changing operations (POST, PUT, DELETE under /api/operations) needs the header X-Admin-Key
+/// Changing operations (every method except GET and HEAD under /api/operations) needs the header X-Admin-Key
 /// to match Admin:Key from the configuration. Reading and calculating stay open to everyone.
 /// With no key configured, every change is refused.
 /// </summary>

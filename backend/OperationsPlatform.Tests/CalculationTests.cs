@@ -1,6 +1,5 @@
 using FluentValidation;
 using OperationsPlatform.Core.Models;
-using OperationsPlatform.Domain.Entities;
 using OperationsPlatform.Common.Exceptions;
 using OperationsPlatform.Tests.Support;
 using Xunit;

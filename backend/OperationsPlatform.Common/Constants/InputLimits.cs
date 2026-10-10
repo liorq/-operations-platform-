@@ -1,6 +1,6 @@
 namespace OperationsPlatform.Common.Constants;
 
-/// <summary>Size limits for what a caller may send. One place, so the validators, the database and the middleware always agree.</summary>
+/// <summary>Size limits for what a caller may send. One place, so the validators, the database and the executors always agree.</summary>
 public static class InputLimits
 {
     /// <summary>Longest allowed value for field A or field B, in characters.</summary>

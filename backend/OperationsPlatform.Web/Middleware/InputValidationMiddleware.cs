@@ -7,13 +7,17 @@ namespace OperationsPlatform.Web.Middleware;
 
 /// <summary>
 /// Checks the body of every POST and PUT to /api before any controller runs.
-/// (A body larger than Kestrel:Limits:MaxRequestBodySize never gets here: Kestrel answers 413.) Every string in the JSON (property names and values, at any depth)
-/// must pass the allow-list regex below; if one does not, the caller gets a plain 400 with no details
-/// and the field that failed goes to the log. The rules of each field (length, format) are FluentValidation's job, in the services.
+/// Every string in the JSON (property names and values, at any depth) must pass the allow-list regex;
+/// if one does not, the caller gets a plain 400 with no details and the field that failed goes to the log.
+/// The rules of each field (length, format) are FluentValidation's job, in the services.
 /// A body that is not valid JSON is passed on, and model binding answers it with 400.
+/// A body larger than the limit set in PlatformServiceExtensions never gets here: Kestrel answers 413.
 /// </summary>
 public class InputValidationMiddleware
 {
+    private const string RootPath = "body";
+    private const int RegexTimeoutMilliseconds = 100;
+
     /// <summary>
     /// One allow-list for every piece of text a caller sends. Text is accepted only if EVERY character is one of:
     /// letters of any language (Hebrew included), combining marks, digits, punctuation, space, tab, line breaks,
@@ -23,11 +27,9 @@ public class InputValidationMiddleware
     /// because a new kind of attack is refused by default.
     /// Known limits: a formula cannot use &lt; or &gt; (use Max, Min, Sign or Abs instead), and plain text such as "javascript:"
     /// is allowed because it is harmless until someone places it in a link, which this platform never does.
-    /// The timeout protects the server from input built to make a pattern run for a very long time.
+    /// The timeout protects the server from input built to make a pattern run for a very long time;
+    /// if it ever fires, the exception goes to GlobalExceptionHandler and the caller gets 500.
     /// </summary>
-    private const string RootPath = "body";
-    private const int RegexTimeoutMilliseconds = 100;
-
     private static readonly Regex Allowed = new Regex(
         @"^[\p{L}\p{M}\p{N}\p{P} \t\r\n+=^|~$°\u200e\u200f]*\z",
         RegexOptions.CultureInvariant | RegexOptions.Compiled,

@@ -43,7 +43,7 @@ public class OperationsDbContext : DbContext
             builder.Property(nameof(OperationLog.B)).HasMaxLength(InputLimits.MaxInputLength);
             builder.Property(nameof(OperationLog.Result)).HasMaxLength(InputLimits.MaxResultLength);
 
-            // One index serves both history queries: the last 3 runs of an operation, and the count since the start of the month.
+            // One index serves both history queries: the latest runs of an operation, and the count since the start of the month.
             builder.HasIndex(nameof(OperationLog.OperationId), nameof(OperationLog.CreatedAtUtc));
 
             builder.HasOne(nameof(OperationLog.Operation))

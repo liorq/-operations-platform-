@@ -36,6 +36,7 @@ const GLYPHS: Record<string, string> = {
 };
 const DEFAULT_GLYPH = '·';
 
+// The page is right-to-left, so ArrowLeft moves to the next operation and ArrowRight to the previous one.
 const ARROW_STEPS: Record<string, number> = { ArrowLeft: 1, ArrowRight: -1 };
 const ENTER_KEY = 'Enter';
 const MONTH_SEGMENTS = 14;

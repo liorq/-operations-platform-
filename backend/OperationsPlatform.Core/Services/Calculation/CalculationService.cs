@@ -10,7 +10,7 @@ namespace OperationsPlatform.Core.Services.Calculation;
 
 /// <summary>
 /// The core business logic: find the operation, run it, record the run,
-/// and return the result together with the history required by chapter B.
+/// and return the result together with the last runs and the count since the start of the month.
 /// </summary>
 public class CalculationService : ICalculationService
 {
@@ -57,9 +57,9 @@ public class CalculationService : ICalculationService
             DurationMs = durationMs,
             CreatedAtUtc = _clock.GetUtcNow().UtcDateTime
         };
-        await _logs.AddAsync(log, cancellationToken);
+        await _logs.AddAndSaveAsync(log, cancellationToken);
 
-        IReadOnlyList<OperationLog> lastRuns = await _logs.LastAsync(operation.Id, HistorySize, cancellationToken);
+        IReadOnlyList<OperationLog> lastRuns = await _logs.LatestAsync(operation.Id, HistorySize, cancellationToken);
         int countThisMonth = await _logs.CountSinceAsync(operation.Id, StartOfMonthUtc(), cancellationToken);
 
         return new CalculateResponse(result, operation.Name, durationMs, ToHistoryItems(lastRuns), countThisMonth);

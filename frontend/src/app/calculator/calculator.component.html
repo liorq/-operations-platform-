@@ -66,12 +66,12 @@
     </div>
     @for (item of response()?.lastThree; track $index) {
       <div class="row">
-        <span class="t">{{ toDate(item.createdAtUtc) | date: 'HH:mm' }}</span>
-        <span class="e">{{ item.a }} <i>{{ glyph() }}</i> {{ item.b }}</span>
-        <span class="r">= {{ item.result }}</span>
+        <span class="row-time">{{ toDate(item.createdAtUtc) | date: 'HH:mm' }}</span>
+        <span class="row-expr">{{ item.a }} <i>{{ glyph() }}</i> {{ item.b }}</span>
+        <span class="row-result">= {{ item.result }}</span>
       </div>
     } @empty {
-      <div class="row"><span class="t">—</span><span class="e"><i>עדיין אין ביצועים להצגה</i></span><span></span></div>
+      <div class="row"><span class="row-time">—</span><span class="row-expr"><i>עדיין אין ביצועים להצגה</i></span><span></span></div>
     }
   </section>
 

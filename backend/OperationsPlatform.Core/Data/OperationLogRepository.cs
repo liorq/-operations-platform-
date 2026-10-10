@@ -13,13 +13,13 @@ public class OperationLogRepository : IOperationLogRepository
         _db = db;
     }
 
-    public async Task AddAsync(OperationLog log, CancellationToken cancellationToken)
+    public async Task AddAndSaveAsync(OperationLog log, CancellationToken cancellationToken)
     {
         _db.OperationLogs.Add(log);
         await _db.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<OperationLog>> LastAsync(int operationId, int take, CancellationToken cancellationToken) =>
+    public async Task<IReadOnlyList<OperationLog>> LatestAsync(int operationId, int take, CancellationToken cancellationToken) =>
         await _db.OperationLogs
             .AsNoTracking()
             .Where(log => log.OperationId == operationId)

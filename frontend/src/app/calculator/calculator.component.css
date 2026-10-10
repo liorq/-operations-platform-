@@ -51,10 +51,10 @@
 .seg i.on { background: var(--signal); }
 .count { color: var(--ink); font-size: 20px; }
 .row { display: grid; grid-template-columns: 72px 1fr auto; gap: 14px; align-items: baseline; padding: 12px 0; border-bottom: 1px dashed var(--line); font-family: var(--mono); font-size: 14px; direction: ltr; }
-.t { color: var(--ink-2); font-size: 12px; }
-.e { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.e i { font-style: normal; color: var(--ink-2); }
-.r { font-weight: 700; }
+.row-time { color: var(--ink-2); font-size: 12px; }
+.row-expr { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-expr i { font-style: normal; color: var(--ink-2); }
+.row-result { font-weight: 700; }
 
 .keys { margin-top: 36px; display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
 kbd { border: 1px solid var(--line); padding: 2px 7px; margin-inline-end: 6px; color: var(--ink); background: var(--paper-2); }
