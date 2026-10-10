@@ -1,0 +1,83 @@
+<div class="wrap">
+  <div class="bar">
+    <div class="brand"><b>גאיה</b><span>OPERATIONS · v1</span></div>
+    <button type="button" class="theme" (click)="toggleTheme()">◐ ערכה</button>
+  </div>
+
+  <div class="eq">
+    <div class="cell">
+      <label for="a">שדה א'</label>
+      <input id="a" type="text" inputmode="decimal" autocomplete="off" [(ngModel)]="a">
+    </div>
+    <div class="glyph">{{ glyph() }}</div>
+    <div class="cell">
+      <label for="b">שדה ב'</label>
+      <input id="b" type="text" inputmode="decimal" autocomplete="off" [(ngModel)]="b">
+    </div>
+    <div class="glyph">=</div>
+    <div class="cell">
+      <span class="caption">תוצאה</span>
+      <div class="val" aria-live="polite">
+        @if (errorMessage()) {
+          <div class="err" role="alert">{{ errorMessage() }}</div>
+        } @else {
+          {{ response()?.result }}
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="work">
+    @if (response(); as current) {
+      {{ current.operationName }} · {{ current.durationMs }}ms
+    }
+  </div>
+  <button type="button" class="calc" (click)="calculate()" [disabled]="isBusy() || !selectedKey()">חשב</button>
+
+  <div class="ops">
+    @for (group of groups(); track group.title) {
+      <div class="group">
+        <h3>{{ group.title }}</h3>
+        @for (operation of group.operations; track operation.key) {
+          <button type="button" class="chip" [attr.aria-pressed]="operation.key === selectedKey()" (click)="select(operation.key)">
+            <span>{{ operation.name }}</span>
+            @if (operation.kind === expressionKind) {
+              <code>{{ operation.definition }}</code>
+            }
+          </button>
+        }
+      </div>
+    }
+  </div>
+  <div class="hint">{{ hint() }}</div>
+
+  <section class="ledger">
+    <div class="ledger-head">
+      <h2>3 הפעולות האחרונות מאותו סוג</h2>
+      <div class="usage">
+        החודש
+        <span class="seg">
+          @for (on of segments(); track $index) {
+            <i [class.on]="on"></i>
+          }
+        </span>
+        <b class="count">{{ response()?.countThisMonth ?? 0 }}</b>
+      </div>
+    </div>
+    @for (item of response()?.lastThree; track $index) {
+      <div class="row">
+        <span class="t">{{ toDate(item.createdAtUtc) | date: 'HH:mm' }}</span>
+        <span class="e">{{ item.a }} <i>{{ glyph() }}</i> {{ item.b }}</span>
+        <span class="r">= {{ item.result }}</span>
+      </div>
+    } @empty {
+      <div class="row"><span class="t">—</span><span class="e"><i>עדיין אין ביצועים להצגה</i></span><span></span></div>
+    }
+  </section>
+
+  <div class="keys">
+    <span><kbd>Enter</kbd>חשב</span>
+    <span><kbd>←</kbd><kbd>→</kbd>החלף פעולה</span>
+    <span><kbd>Tab</kbd>שדה הבא</span>
+  </div>
+</div>

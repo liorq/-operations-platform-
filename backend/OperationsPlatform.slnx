@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="OperationsPlatform.Web/OperationsPlatform.Web.csproj" />
+  <Project Path="OperationsPlatform.Common/OperationsPlatform.Common.csproj" />
+  <Project Path="OperationsPlatform.Core/OperationsPlatform.Core.csproj" />
+  <Project Path="OperationsPlatform.Domain/OperationsPlatform.Domain.csproj" />
+  <Project Path="OperationsPlatform.Tests/OperationsPlatform.Tests.csproj" />
+</Solution>

@@ -1,0 +1,23 @@
+# secrets
+
+# build output
+bin/
+obj/
+backend/OperationsPlatform.Web/wwwroot/
+frontend/dist/
+
+# dependencies and caches
+node_modules/
+.angular/
+.vs/
+
+# runtime output
+logs/
+test-results/
+playwright-report/
+
+# machine-specific
+*.user
+*.suo
+.DS_Store
+Thumbs.db
