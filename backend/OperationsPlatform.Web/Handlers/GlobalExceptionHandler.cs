@@ -9,7 +9,8 @@ using OperationsPlatform.Common.Exceptions;
 namespace OperationsPlatform.Web.Handlers;
 
 /// <summary>
-/// Turns every exception into an answer. A validation failure, a user mistake or a malformed request becomes 400.
+/// Turns every exception into an answer. A validation failure, a user mistake or a malformed request becomes 400,
+/// and a failing external service becomes 502.
 /// Anything else becomes 500 and an Error entry in errors-.log.
 /// The caller always gets the same ProblemDetails shape and never a stack trace.
 /// </summary>
@@ -58,6 +59,21 @@ public class GlobalExceptionHandler : IExceptionHandler
         if (exception is UserInputException)
         {
             return new ProblemDetails { Status = StatusCodes.Status400BadRequest, Title = exception.Message };
+        }
+
+        if (exception is ExternalServiceException)
+        {
+            return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
+        }
+
+        if (exception is ExternalServiceException)
+        {
+            return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
+        }
+
+        if (exception is ExternalServiceException)
+        {
+            return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
         }
 
         if (exception is NCalcException or JsonException)

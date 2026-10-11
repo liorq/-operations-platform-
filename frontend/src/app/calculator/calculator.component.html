@@ -66,7 +66,7 @@
     </div>
     @for (item of response()?.lastThree; track $index) {
       <div class="row">
-        <span class="row-time">{{ toDate(item.createdAtUtc) | date: 'HH:mm' }}</span>
+        <span class="row-time">{{ item.createdAtUtc | date: 'HH:mm' }}</span>
         <span class="row-expr">{{ item.a }} <i>{{ glyph() }}</i> {{ item.b }}</span>
         <span class="row-result">= {{ item.result }}</span>
       </div>

@@ -13,10 +13,7 @@ public static class WebApplicationExtensions
     /// </summary>
     public static WebApplication UsePlatform(this WebApplication app)
     {
-        if (app.Configuration.GetValue(ConfigKeys.AutoMigrate, true))
-        {
-            MigrateDatabase(app);
-        }
+        MigrateDatabase(app);
 
         app.UseDefaultFiles();
         app.UseStaticFiles();

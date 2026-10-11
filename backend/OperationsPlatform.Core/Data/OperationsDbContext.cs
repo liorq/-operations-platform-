@@ -43,6 +43,9 @@ public class OperationsDbContext : DbContext
             builder.Property(nameof(OperationLog.B)).HasMaxLength(InputLimits.MaxInputLength);
             builder.Property(nameof(OperationLog.Result)).HasMaxLength(InputLimits.MaxResultLength);
 
+            // SQL Server returns datetime2 without a time zone, so it is marked as UTC and the JSON carries a "Z".
+            builder.Property<DateTime>(nameof(OperationLog.CreatedAtUtc)).HasConversion(stored => stored, loaded => DateTime.SpecifyKind(loaded, DateTimeKind.Utc));
+
             // One index serves both history queries: the latest runs of an operation, and the count since the start of the month.
             builder.HasIndex(nameof(OperationLog.OperationId), nameof(OperationLog.CreatedAtUtc));
 

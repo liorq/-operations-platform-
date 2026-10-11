@@ -52,7 +52,7 @@ export async function mockApi(page: Page): Promise<MockApi> {
         durationMs: 3,
         countThisMonth: 7,
         lastThree: [
-          { a: body.a, b: body.b, result: String(sum), createdAtUtc: '2026-10-09T10:00:00' },
+          { a: body.a, b: body.b, result: String(sum), createdAtUtc: '2026-10-09T10:00:00Z' },
           { a: '1', b: '1', result: '2', createdAtUtc: '2026-10-08T09:30:00Z' },
         ],
       },

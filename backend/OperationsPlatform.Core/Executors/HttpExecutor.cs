@@ -58,7 +58,7 @@ public class HttpExecutor : IOperationExecutor
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new UserInputException($"The external service returned {(int)response.StatusCode}");
+            throw new ExternalServiceException($"The external service returned {(int)response.StatusCode}");
         }
 
         await using Stream stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -70,7 +70,7 @@ public class HttpExecutor : IOperationExecutor
         {
             if (node.ValueKind != JsonValueKind.Object || !node.TryGetProperty(part, out node))
             {
-                throw new UserInputException($"The path '{path}' was not found in the response");
+                throw new ExternalServiceException($"The path '{path}' was not found in the response");
             }
         }
 
@@ -78,7 +78,7 @@ public class HttpExecutor : IOperationExecutor
 
         if (value.Length > InputLimits.MaxResultLength)
         {
-            throw new UserInputException("The external service response is too long");
+            throw new ExternalServiceException("The external service response is too long");
         }
 
         return value;

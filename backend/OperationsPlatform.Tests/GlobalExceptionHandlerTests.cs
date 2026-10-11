@@ -18,6 +18,7 @@ public class GlobalExceptionHandlerTests
     {
         "validation" => new ValidationException(new[] { new ValidationFailure("key", "bad key") }),
         "json" => new JsonException("bad definition"),
+        "external" => new ExternalServiceException("service down"),
         "user" => new UserInputException("bad input"),
         _ => new InvalidOperationException("boom"),
     };
@@ -26,6 +27,7 @@ public class GlobalExceptionHandlerTests
     [InlineData("validation", 400)]
     [InlineData("user", 400)]
     [InlineData("json", 400)]
+    [InlineData("external", 502)]
     [InlineData("unexpected", 500)]
     public async Task MapsEachKindOfExceptionToAStatusCode(string kind, int expectedStatus)
     {

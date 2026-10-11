@@ -4,26 +4,22 @@ using OperationsPlatform.Core.Services.Operations;
 using OperationsPlatform.Core.Services.Resolving;
 using OperationsPlatform.Core.Data;
 using OperationsPlatform.Core.Validators;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace OperationsPlatform.Tests.Support;
 
 /// <summary>
-/// The real services on a real EF Core database (SQLite in memory, built from the model and the seed).
-/// Each test creates its own, so tests never affect each other.
+/// The real services on a real SQL Server database, built by the real migration.
+/// Each test creates its own database, so tests never affect each other.
 /// </summary>
 public sealed class TestApp : IDisposable
 {
-    private readonly SqliteConnection _connection = new SqliteConnection("DataSource=:memory:");
+    private readonly TestDatabase _database = new TestDatabase();
 
     public TestApp()
     {
-        _connection.Open();
-
-        DbContextOptions<OperationsDbContext> options = new DbContextOptionsBuilder<OperationsDbContext>().UseSqlite(_connection).Options;
-        Db = new OperationsDbContext(options);
-        Db.Database.EnsureCreated();
+        Db = _database.CreateContext();
+        Db.Database.Migrate();
 
         Clock = new FakeClock(new DateTimeOffset(2026, 10, 15, 12, 0, 0, TimeSpan.Zero));
 
@@ -50,6 +46,6 @@ public sealed class TestApp : IDisposable
     public void Dispose()
     {
         Db.Dispose();
-        _connection.Dispose();
+        _database.Dispose();
     }
 }

@@ -73,7 +73,7 @@ dotnet run
 
 ## אבטחה והגבלות
 
-- שינוי פעולות (`POST/PUT/DELETE` תחת `/api/operations`) דורש כותרת `X-Admin-Key` שזהה ל-`Admin:Key`. **אין מפתח ברירת מחדל**: ב-`appsettings.json` הוא ריק, ואז כל שינוי נדחה. בפיתוח המפתח הוא `dev-admin-key` (`appsettings.Development.json`). בהרצה אמיתית מגדירים אותו במשתנה סביבה `Admin__Key`. חישוב וקריאה פתוחים.
+- שינוי פעולות (`POST/PUT/DELETE` תחת `/api/operations`) דורש כותרת `X-Admin-Key` שזהה ל-`Admin:Key`. **אין מפתח ברירת מחדל**: ב-`appsettings.json` הוא ריק, ואז כל שינוי נדחה. בפיתוח מגדירים אותו ב-user-secrets (לא נשמר ב-git): `dotnet user-secrets set "Admin:Key" "<מפתח>" -p backend/OperationsPlatform.Web`. בהרצה אמיתית מגדירים אותו במשתנה סביבה `Admin__Key`. חישוב וקריאה פתוחים.
 - פעולות Http יכולות לפנות רק לדומיינים ב-`AllowedHttpHosts` (ברירת מחדל: `api.open-meteo.com`), רק ב-https וללא redirects. זה מונע מהשרת לפנות לכתובות פנימיות.
 - גוף בקשה גדול מ-64KB מחזיר 413. המגבלה היא של Kestrel (`MaxRequestBodySize`), והבקשה לא מגיעה לקוד שלנו.
 
@@ -99,8 +99,8 @@ dotnet run
 cd backend && dotnet test
 ```
 
-81 בדיקות: יחידה (שירותים, middleware, validators, פונקציות טקסט) ובדיקות אינטגרציה שמרימות את כל האפליקציה בזיכרון עם `WebApplicationFactory`.
-בבדיקות האינטגרציה SQL Server מוחלף ב-SQLite בזיכרון, והשירות החיצוני של מזג האוויר מוחלף ב-stub, כך שהן לא צריכות רשת.
+82 בדיקות: יחידה (שירותים, middleware, validators, פונקציות טקסט) ובדיקות אינטגרציה שמרימות את כל האפליקציה בזיכרון עם `WebApplicationFactory`.
+הבדיקות רצות על **SQL Server אמיתי**: כל בדיקה (או מחלקת בדיקות) יוצרת מסד זמני, מפעילה עליו את ה-migration האמיתי ומוחקת אותו בסוף. ברירת המחדל היא SQL Server Express במחשב, ובמשתנה הסביבה `TEST_SQLSERVER` אפשר לציין שרת אחר (חיבור בלי שם מסד). השירות החיצוני של מזג האוויר מוחלף ב-stub, כך שהבדיקות לא צריכות רשת.
 
 בדיקות ממשק (Playwright), 6 הרצות בדפדפן אמיתי: 5 בגודל מסך של מחשב ואחת של גלילה אופקית בגודל מסך של טלפון. ה-API מוחלף בתוך הבדיקה, כך שהן לא צריכות שרת או מסד נתונים:
 
@@ -110,7 +110,7 @@ npx playwright install chromium
 npm run e2e
 ```
 
-`.github/workflows/ci.yml` מריץ את שתי הסדרות על push ל-`main` ועל pull request.
+`.github/workflows/ci.yml` מריץ את שתי הסדרות על push ל-`main` ועל pull request, עם SQL Server כ-service container (הקובץ לא הורץ בפועל ב-GitHub).
 
 ## צילומי מסך
 

@@ -145,9 +145,4 @@ export class CalculatorComponent implements OnInit {
       }
     }
   }
-
-  /** The server stores UTC but SQL Server hands it back without a "Z", so one is added before showing local time. */
-  protected toDate(value: string): Date {
-    return new Date(value.endsWith(UTC_SUFFIX) ? value : value + UTC_SUFFIX);
-  }
 }
