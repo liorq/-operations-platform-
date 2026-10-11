@@ -21,7 +21,7 @@ public class ExpressionExecutor : IOperationExecutor
 
         if (expression.HasErrors())
         {
-            throw new UserInputException($"נוסחה לא תקינה: {expression.Error?.Message}");
+            throw new UserInputException($"Invalid formula: {expression.Error?.Message}");
         }
 
         // Parsing does not notice an unknown name such as "c", so the formula is also run once on sample values (NCalc throws, and the exception handler answers 400).
@@ -41,7 +41,7 @@ public class ExpressionExecutor : IOperationExecutor
 
         if (value is double number && !double.IsFinite(number))
         {
-            throw new UserInputException("התוצאה אינה מוגדרת (למשל חילוק באפס)");
+            throw new UserInputException("The result is undefined (for example, division by zero)");
         }
 
         return Task.FromResult(Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty);
@@ -51,7 +51,7 @@ public class ExpressionExecutor : IOperationExecutor
     {
         if (!NumberParser.TryParse(text, out double number))
         {
-            throw new UserInputException($"שדה {fieldName} חייב להיות מספר");
+            throw new UserInputException($"Field {fieldName} must be a number");
         }
 
         return number;

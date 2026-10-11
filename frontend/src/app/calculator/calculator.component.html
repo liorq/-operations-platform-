@@ -1,22 +1,22 @@
 <div class="wrap">
   <div class="bar">
-    <div class="brand"><b>גאיה</b><span>OPERATIONS · v1</span></div>
-    <button type="button" class="theme" (click)="toggleTheme()">◐ ערכה</button>
+    <div class="brand"><b>Operations</b><span>PLATFORM · v1</span></div>
+    <button type="button" class="theme" (click)="toggleTheme()">◐ Theme</button>
   </div>
 
   <div class="eq">
     <div class="cell">
-      <label for="a">שדה א'</label>
+      <label for="a">Field A</label>
       <input id="a" type="text" inputmode="decimal" autocomplete="off" [(ngModel)]="a">
     </div>
     <div class="glyph">{{ glyph() }}</div>
     <div class="cell">
-      <label for="b">שדה ב'</label>
+      <label for="b">Field B</label>
       <input id="b" type="text" inputmode="decimal" autocomplete="off" [(ngModel)]="b">
     </div>
     <div class="glyph">=</div>
     <div class="cell">
-      <span class="caption">תוצאה</span>
+      <span class="caption">Result</span>
       <div class="val" aria-live="polite">
         @if (errorMessage()) {
           <div class="err" role="alert">{{ errorMessage() }}</div>
@@ -32,7 +32,7 @@
       {{ current.operationName }} · {{ current.durationMs }}ms
     }
   </div>
-  <button type="button" class="calc" (click)="calculate()" [disabled]="isBusy() || !selectedKey()">חשב</button>
+  <button type="button" class="calc" (click)="calculate()" [disabled]="isBusy() || !selectedKey()">Calculate</button>
 
   <div class="ops">
     @for (group of groups(); track group.title) {
@@ -53,9 +53,9 @@
 
   <section class="ledger">
     <div class="ledger-head">
-      <h2>3 הפעולות האחרונות מאותו סוג</h2>
+      <h2>Last 3 runs of this operation</h2>
       <div class="usage">
-        החודש
+        This month
         <span class="seg">
           @for (on of segments(); track $index) {
             <i [class.on]="on"></i>
@@ -71,13 +71,13 @@
         <span class="row-result">= {{ item.result }}</span>
       </div>
     } @empty {
-      <div class="row"><span class="row-time">—</span><span class="row-expr"><i>עדיין אין ביצועים להצגה</i></span><span></span></div>
+      <div class="row"><span class="row-time">—</span><span class="row-expr"><i>No runs to show yet</i></span><span></span></div>
     }
   </section>
 
   <div class="keys">
-    <span><kbd>Enter</kbd>חשב</span>
-    <span><kbd>←</kbd><kbd>→</kbd>החלף פעולה</span>
-    <span><kbd>Tab</kbd>שדה הבא</span>
+    <span><kbd>Enter</kbd>calculate</span>
+    <span><kbd>←</kbd><kbd>→</kbd>switch operation</span>
+    <span><kbd>Tab</kbd>next field</span>
   </div>
 </div>

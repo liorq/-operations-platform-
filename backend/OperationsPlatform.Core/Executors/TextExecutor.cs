@@ -14,7 +14,7 @@ public class TextExecutor : IOperationExecutor
         if (!TextFunctions.Names.Contains(operation.Definition, StringComparer.OrdinalIgnoreCase))
         {
             string names = string.Join(", ", TextFunctions.Names);
-            throw new UserInputException($"פונקציית טקסט לא קיימת. אפשרויות: {names}");
+            throw new UserInputException($"Unknown text function. Options: {names}");
         }
     }
 

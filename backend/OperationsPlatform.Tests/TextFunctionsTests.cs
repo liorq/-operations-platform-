@@ -9,7 +9,7 @@ public class TextFunctionsTests
     [InlineData("", "", 0)]
     [InlineData("abc", "", 3)]
     [InlineData("", "abc", 3)]
-    [InlineData("שלום", "שלום", 0)]
+    [InlineData("hello", "hello", 0)]
     public void Levenshtein_IsTheEditDistance(string a, string b, int expected)
     {
         Assert.Equal(expected, TextFunctions.Levenshtein(a, b));

@@ -10,13 +10,13 @@ public class CalculateRequestValidator : AbstractValidator<CalculateRequest>
     public CalculateRequestValidator()
     {
         RuleFor(request => request.Operation)
-            .NotEmpty().WithMessage("חובה לבחור פעולה")
-            .MaximumLength(InputLimits.MaxKeyLength).WithMessage("מפתח הפעולה ארוך מדי");
+            .NotEmpty().WithMessage("An operation is required")
+            .MaximumLength(InputLimits.MaxKeyLength).WithMessage("The operation key is too long");
 
         RuleFor(request => request.A)
-            .MaximumLength(InputLimits.MaxInputLength).WithMessage($"שדה א' ארוך מדי (עד {InputLimits.MaxInputLength} תווים)");
+            .MaximumLength(InputLimits.MaxInputLength).WithMessage($"Field A is too long (up to {InputLimits.MaxInputLength} characters)");
 
         RuleFor(request => request.B)
-            .MaximumLength(InputLimits.MaxInputLength).WithMessage($"שדה ב' ארוך מדי (עד {InputLimits.MaxInputLength} תווים)");
+            .MaximumLength(InputLimits.MaxInputLength).WithMessage($"Field B is too long (up to {InputLimits.MaxInputLength} characters)");
     }
 }

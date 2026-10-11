@@ -41,13 +41,13 @@ public class ApiTests : IClassFixture<PlatformWebApplicationFactory>
 
         ProblemDetails problem = await TestJson.ReadAsync<ProblemDetails>(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Contains("חילוק באפס", problem.Title);
+        Assert.Contains("division by zero", problem.Title);
     }
 
     [Fact]
     public async Task CreateOperation_WithoutTheAdminKey_Returns401()
     {
-        OperationDto dto = new OperationDto(0, "no-key", "בלי מפתח", null, OperationKind.Expression, InputType.Number, "a + b", true);
+        OperationDto dto = new OperationDto(0, "no-key", "No key", null, OperationKind.Expression, InputType.Number, "a + b", true);
 
         HttpResponseMessage response = await TestJson.PostAsync(_client, "/api/operations", dto);
 

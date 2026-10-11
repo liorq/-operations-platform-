@@ -61,16 +61,16 @@ namespace OperationsPlatform.Core.Migrations
                 columns: new[] { "Id", "Definition", "Description", "InputType", "IsActive", "Key", "Kind", "Name" },
                 values: new object[,]
                 {
-                    { 1, "a + b", null, "Number", true, "add", "Expression", "חיבור" },
-                    { 2, "a - b", null, "Number", true, "subtract", "Expression", "חיסור" },
-                    { 3, "a * b", null, "Number", true, "multiply", "Expression", "כפל" },
-                    { 4, "a / b", null, "Number", true, "divide", "Expression", "חילוק" },
-                    { 5, "Pow(a, b)", null, "Number", true, "power", "Expression", "חזקה" },
-                    { 6, "Sqrt(a*a + b*b)", null, "Number", true, "hypotenuse", "Expression", "אלכסון (פיתגורס)" },
-                    { 7, "concat", null, "Text", true, "concat", "Text", "חיבור מחרוזות" },
-                    { 8, "levenshtein", null, "Text", true, "levenshtein", "Text", "מרחק עריכה בין מילים" },
-                    { 9, "anagram", null, "Text", true, "anagram", "Text", "האם אנגרמה?" },
-                    { 10, "{\"url\":\"https://api.open-meteo.com/v1/forecast?latitude={a}&longitude={b}&current=temperature_2m\",\"path\":\"current.temperature_2m\"}", null, "Coordinates", true, "weather", "Http", "טמפרטורה עכשיו (קו רוחב, קו אורך)" }
+                    { 1, "a + b", null, "Number", true, "add", "Expression", "Addition" },
+                    { 2, "a - b", null, "Number", true, "subtract", "Expression", "Subtraction" },
+                    { 3, "a * b", null, "Number", true, "multiply", "Expression", "Multiplication" },
+                    { 4, "a / b", null, "Number", true, "divide", "Expression", "Division" },
+                    { 5, "Pow(a, b)", null, "Number", true, "power", "Expression", "Power" },
+                    { 6, "Sqrt(a*a + b*b)", null, "Number", true, "hypotenuse", "Expression", "Hypotenuse (Pythagoras)" },
+                    { 7, "concat", null, "Text", true, "concat", "Text", "String concatenation" },
+                    { 8, "levenshtein", null, "Text", true, "levenshtein", "Text", "Edit distance between words" },
+                    { 9, "anagram", null, "Text", true, "anagram", "Text", "Is it an anagram?" },
+                    { 10, "{\"url\":\"https://api.open-meteo.com/v1/forecast?latitude={a}&longitude={b}&current=temperature_2m\",\"path\":\"current.temperature_2m\"}", null, "Coordinates", true, "weather", "Http", "Current temperature (latitude, longitude)" }
                 });
 
             migrationBuilder.CreateIndex(

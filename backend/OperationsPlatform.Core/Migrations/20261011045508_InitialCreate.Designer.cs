@@ -12,7 +12,7 @@ using OperationsPlatform.Core.Data;
 namespace OperationsPlatform.Core.Migrations
 {
     [DbContext(typeof(OperationsDbContext))]
-    [Migration("20261010201552_InitialCreate")]
+    [Migration("20261011045508_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -80,7 +80,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "add",
                             Kind = "Expression",
-                            Name = "חיבור"
+                            Name = "Addition"
                         },
                         new
                         {
@@ -90,7 +90,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "subtract",
                             Kind = "Expression",
-                            Name = "חיסור"
+                            Name = "Subtraction"
                         },
                         new
                         {
@@ -100,7 +100,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "multiply",
                             Kind = "Expression",
-                            Name = "כפל"
+                            Name = "Multiplication"
                         },
                         new
                         {
@@ -110,7 +110,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "divide",
                             Kind = "Expression",
-                            Name = "חילוק"
+                            Name = "Division"
                         },
                         new
                         {
@@ -120,7 +120,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "power",
                             Kind = "Expression",
-                            Name = "חזקה"
+                            Name = "Power"
                         },
                         new
                         {
@@ -130,7 +130,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "hypotenuse",
                             Kind = "Expression",
-                            Name = "אלכסון (פיתגורס)"
+                            Name = "Hypotenuse (Pythagoras)"
                         },
                         new
                         {
@@ -140,7 +140,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "concat",
                             Kind = "Text",
-                            Name = "חיבור מחרוזות"
+                            Name = "String concatenation"
                         },
                         new
                         {
@@ -150,7 +150,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "levenshtein",
                             Kind = "Text",
-                            Name = "מרחק עריכה בין מילים"
+                            Name = "Edit distance between words"
                         },
                         new
                         {
@@ -160,7 +160,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "anagram",
                             Kind = "Text",
-                            Name = "האם אנגרמה?"
+                            Name = "Is it an anagram?"
                         },
                         new
                         {
@@ -170,7 +170,7 @@ namespace OperationsPlatform.Core.Migrations
                             IsActive = true,
                             Key = "weather",
                             Kind = "Http",
-                            Name = "טמפרטורה עכשיו (קו רוחב, קו אורך)"
+                            Name = "Current temperature (latitude, longitude)"
                         });
                 });
 

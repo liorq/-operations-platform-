@@ -2,8 +2,8 @@ namespace OperationsPlatform.Web.Handlers;
 
 public static class ProblemTitles
 {
-    public const string InvalidRequest = "הבקשה לא תקינה";
-    public const string InternalError = "שגיאה פנימית בשרת";
-    public const string AdminKeyRequired = "נדרש מפתח ניהול (X-Admin-Key)";
-    public const string InvalidDefinitionOrInput = "הגדרה או קלט לא תקינים: ";
+    public const string InvalidRequest = "Invalid request";
+    public const string InternalError = "Internal server error";
+    public const string AdminKeyRequired = "An admin key is required (X-Admin-Key)";
+    public const string InvalidDefinitionOrInput = "Invalid definition or input: ";
 }

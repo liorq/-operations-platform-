@@ -8,7 +8,7 @@ namespace OperationsPlatform.Tests;
 
 public class ValidatorTests
 {
-    private static OperationDto CreateDto(string key = "my-op", string name = "שם", string definition = "a + b")
+    private static OperationDto CreateDto(string key = "my-op", string name = "Name", string definition = "a + b")
     {
         return new OperationDto(0, key, name, null, OperationKind.Expression, InputType.Number, definition, true);
     }
@@ -47,7 +47,7 @@ public class ValidatorTests
     [Fact]
     public void OperationDto_UnknownKindNumber_Fails()
     {
-        OperationDto dto = new OperationDto(0, "my-op", "שם", null, (OperationKind)99, InputType.Number, "a + b", true);
+        OperationDto dto = new OperationDto(0, "my-op", "Name", null, (OperationKind)99, InputType.Number, "a + b", true);
 
         ValidationResult result = new OperationDtoValidator().Validate(dto);
 

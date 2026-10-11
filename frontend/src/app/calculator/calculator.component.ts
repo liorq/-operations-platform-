@@ -11,15 +11,15 @@ interface OperationGroup {
 }
 
 const HINTS: Record<InputType, string> = {
-  Number: 'הזן מספרים',
-  Text: 'הזן טקסט',
-  Coordinates: 'א\' = קו רוחב (-90 עד 90), ב\' = קו אורך (-180 עד 180). למשל 32.08 ו-34.78',
+  Number: 'Enter numbers',
+  Text: 'Enter text',
+  Coordinates: 'A = latitude (-90 to 90), B = longitude (-180 to 180). For example 32.08 and 34.78',
 };
 
 const GROUPS: { kind: OperationKind; title: string }[] = [
-  { kind: 'Expression', title: 'חשבון' },
-  { kind: 'Text', title: 'טקסט' },
-  { kind: 'Http', title: 'נתונים חיים' },
+  { kind: 'Expression', title: 'Math' },
+  { kind: 'Text', title: 'Text' },
+  { kind: 'Http', title: 'Live data' },
 ];
 
 const GLYPHS: Record<string, string> = {
@@ -36,8 +36,7 @@ const GLYPHS: Record<string, string> = {
 };
 const DEFAULT_GLYPH = '·';
 
-// The page is right-to-left, so ArrowLeft moves to the next operation and ArrowRight to the previous one.
-const ARROW_STEPS: Record<string, number> = { ArrowLeft: 1, ArrowRight: -1 };
+const ARROW_STEPS: Record<string, number> = { ArrowLeft: -1, ArrowRight: 1 };
 const ENTER_KEY = 'Enter';
 const MONTH_SEGMENTS = 14;
 const DARK_THEME = 'ink';

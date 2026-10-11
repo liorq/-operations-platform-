@@ -41,8 +41,8 @@ public class HttpExecutor : IOperationExecutor
 
         if (operation.InputType == InputType.Coordinates)
         {
-            CheckCoordinate(a, CoordinateLimits.MaxLatitude, "קו רוחב (A)");
-            CheckCoordinate(b, CoordinateLimits.MaxLongitude, "קו אורך (B)");
+            CheckCoordinate(a, CoordinateLimits.MaxLatitude, "Latitude (A)");
+            CheckCoordinate(b, CoordinateLimits.MaxLongitude, "Longitude (B)");
         }
 
         string url = FillPlaceholders(definition.Url, a, b);
@@ -58,7 +58,7 @@ public class HttpExecutor : IOperationExecutor
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new UserInputException($"השירות החיצוני החזיר {(int)response.StatusCode}");
+            throw new UserInputException($"The external service returned {(int)response.StatusCode}");
         }
 
         await using Stream stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -70,7 +70,7 @@ public class HttpExecutor : IOperationExecutor
         {
             if (node.ValueKind != JsonValueKind.Object || !node.TryGetProperty(part, out node))
             {
-                throw new UserInputException($"הנתיב '{path}' לא נמצא בתשובה");
+                throw new UserInputException($"The path '{path}' was not found in the response");
             }
         }
 
@@ -78,7 +78,7 @@ public class HttpExecutor : IOperationExecutor
 
         if (value.Length > InputLimits.MaxResultLength)
         {
-            throw new UserInputException("התשובה מהשירות החיצוני ארוכה מדי");
+            throw new UserInputException("The external service response is too long");
         }
 
         return value;
@@ -88,12 +88,12 @@ public class HttpExecutor : IOperationExecutor
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
         {
-            throw new UserInputException("ה-url חייב להיות כתובת https תקינה");
+            throw new UserInputException("The url must be a valid https address");
         }
 
         if (!_options.AllowedHosts.Contains(uri.Host, StringComparer.OrdinalIgnoreCase))
         {
-            throw new UserInputException($"הדומיין '{uri.Host}' לא ברשימת הדומיינים המותרים");
+            throw new UserInputException($"The domain '{uri.Host}' is not in the allowed domains list");
         }
     }
 
@@ -108,7 +108,7 @@ public class HttpExecutor : IOperationExecutor
 
         if (definition is null || string.IsNullOrWhiteSpace(definition.Url) || string.IsNullOrWhiteSpace(definition.Path))
         {
-            throw new UserInputException("ה-Definition חייב להיות JSON עם url ו-path");
+            throw new UserInputException("The definition must be JSON with url and path");
         }
 
         return definition;
@@ -118,7 +118,7 @@ public class HttpExecutor : IOperationExecutor
     {
         if (!NumberParser.TryParse(text, out double number) || Math.Abs(number) > limit)
         {
-            throw new UserInputException($"{fieldName} חייב להיות מספר בין -{limit} ל-{limit}");
+            throw new UserInputException($"{fieldName} must be a number between -{limit} and {limit}");
         }
     }
 }

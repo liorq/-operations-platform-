@@ -58,7 +58,7 @@ public class InputValidationApiTests : IClassFixture<PlatformWebApplicationFacto
     [InlineData("Sqrt(a*a + b*b)")]
     [InlineData("Max(a, b) + Abs(a - b) * 2 / 3 % 4")]
     [InlineData("שלום עולם")]
-    [InlineData("אלכסון (פיתגורס)")]
+    [InlineData("Hypotenuse (Pythagoras)")]
     [InlineData("O'Brien & Sons, Ltd.")]
     [InlineData("{\"url\":\"https://api.open-meteo.com/v1?latitude={a}\",\"path\":\"x\"}")]
     [InlineData("line one\r\nline two\ttabbed")]

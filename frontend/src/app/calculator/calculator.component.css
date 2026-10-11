@@ -9,7 +9,7 @@
 
 .eq { margin-top: 44px; display: grid; grid-template-columns: 1fr auto 1fr auto 1.25fr; align-items: end; gap: 18px; direction: ltr; }
 .cell { min-width: 0; }
-.cell label, .caption { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-2); margin-bottom: 8px; direction: rtl; text-align: right; }
+.cell label, .caption { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-2); margin-bottom: 8px; text-align: left; }
 .cell input {
   all: unset; display: block; width: 100%; font-family: var(--mono); font-size: 56px; font-weight: 500; line-height: 1.1;
   padding: 6px 0 10px; border-bottom: 3px solid var(--ink); text-align: left; font-variant-numeric: tabular-nums;
@@ -21,7 +21,7 @@
   border-bottom: 3px solid var(--signal); min-height: 76px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   font-variant-numeric: tabular-nums;
 }
-.err { color: var(--signal); font-family: var(--sans); font-size: 28px; font-weight: 700; padding-top: 14px; white-space: normal; direction: rtl; text-align: right; }
+.err { color: var(--signal); font-family: var(--sans); font-size: 28px; font-weight: 700; padding-top: 14px; white-space: normal; text-align: left; }
 
 .work { margin-top: 18px; font-family: var(--mono); font-size: 13px; color: var(--ink-2); unicode-bidi: plaintext; text-align: left; min-height: 20px; }
 .calc { all: unset; cursor: pointer; margin-top: 18px; padding: 9px 28px; border: 1px solid var(--ink); font-weight: 700; background: var(--ink); color: var(--paper); }

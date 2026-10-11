@@ -20,8 +20,8 @@ public sealed class CalculationTests : IDisposable
     [InlineData("multiply", "4", "2.5", "10")]
     [InlineData("hypotenuse", "3", "4", "5")]
     [InlineData("levenshtein", "kitten", "sitting", "3")]
-    [InlineData("concat", "שלום ", "עולם", "שלום עולם")]
-    [InlineData("anagram", "Listen", "Silent", "כן, אנגרמה")]
+    [InlineData("concat", "hello ", "world", "hello world")]
+    [InlineData("anagram", "Listen", "Silent", "Yes, an anagram")]
     public async Task Calculates(string operation, string a, string b, string expected)
     {
         CalculateResponse response = await _app.Calculation.CalculateAsync(new CalculateRequest(a, b, operation), default);

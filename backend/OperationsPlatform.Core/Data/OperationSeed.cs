@@ -13,16 +13,16 @@ public static class OperationSeed
 
     public static readonly Operation[] Operations =
     {
-        Create(1, "add", "חיבור", OperationKind.Expression, InputType.Number, "a + b"),
-        Create(2, "subtract", "חיסור", OperationKind.Expression, InputType.Number, "a - b"),
-        Create(3, "multiply", "כפל", OperationKind.Expression, InputType.Number, "a * b"),
-        Create(4, "divide", "חילוק", OperationKind.Expression, InputType.Number, "a / b"),
-        Create(5, "power", "חזקה", OperationKind.Expression, InputType.Number, "Pow(a, b)"),
-        Create(6, "hypotenuse", "אלכסון (פיתגורס)", OperationKind.Expression, InputType.Number, "Sqrt(a*a + b*b)"),
-        Create(7, "concat", "חיבור מחרוזות", OperationKind.Text, InputType.Text, TextFunctionNames.Concat),
-        Create(8, "levenshtein", "מרחק עריכה בין מילים", OperationKind.Text, InputType.Text, TextFunctionNames.Levenshtein),
-        Create(9, "anagram", "האם אנגרמה?", OperationKind.Text, InputType.Text, TextFunctionNames.Anagram),
-        Create(10, "weather", "טמפרטורה עכשיו (קו רוחב, קו אורך)", OperationKind.Http, InputType.Coordinates, WeatherDefinition)
+        Create(1, "add", "Addition", OperationKind.Expression, InputType.Number, "a + b"),
+        Create(2, "subtract", "Subtraction", OperationKind.Expression, InputType.Number, "a - b"),
+        Create(3, "multiply", "Multiplication", OperationKind.Expression, InputType.Number, "a * b"),
+        Create(4, "divide", "Division", OperationKind.Expression, InputType.Number, "a / b"),
+        Create(5, "power", "Power", OperationKind.Expression, InputType.Number, "Pow(a, b)"),
+        Create(6, "hypotenuse", "Hypotenuse (Pythagoras)", OperationKind.Expression, InputType.Number, "Sqrt(a*a + b*b)"),
+        Create(7, "concat", "String concatenation", OperationKind.Text, InputType.Text, TextFunctionNames.Concat),
+        Create(8, "levenshtein", "Edit distance between words", OperationKind.Text, InputType.Text, TextFunctionNames.Levenshtein),
+        Create(9, "anagram", "Is it an anagram?", OperationKind.Text, InputType.Text, TextFunctionNames.Anagram),
+        Create(10, "weather", "Current temperature (latitude, longitude)", OperationKind.Http, InputType.Coordinates, WeatherDefinition)
     };
 
     private static Operation Create(int id, string key, string name, OperationKind kind, InputType inputType, string definition)

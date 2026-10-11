@@ -15,5 +15,5 @@ public class ExecutorResolver : IExecutorResolver
 
     public IOperationExecutor Get(OperationKind kind)
         => _executors.FirstOrDefault(executor => executor.Kind == kind)
-            ?? throw new UserInputException($"אין מנוע שמטפל בסוג {kind}");
+            ?? throw new UserInputException($"No executor handles the kind {kind}");
 }

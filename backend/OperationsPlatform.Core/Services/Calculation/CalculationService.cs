@@ -66,7 +66,7 @@ public class CalculationService : ICalculationService
     }
 
     private async Task<Operation> FindOperationAsync(string key, CancellationToken cancellationToken) =>
-        await _operations.GetActiveByKeyAsync(key, cancellationToken) ?? throw new UserInputException($"הפעולה '{key}' לא קיימת");
+        await _operations.GetActiveByKeyAsync(key, cancellationToken) ?? throw new UserInputException($"The operation '{key}' does not exist");
 
     private static IReadOnlyList<HistoryItem> ToHistoryItems(IReadOnlyList<OperationLog> logs) => logs.Select(ToHistoryItem).ToList();
 

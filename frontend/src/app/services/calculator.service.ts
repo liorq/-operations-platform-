@@ -6,8 +6,8 @@ import { CalculateRequest, CalculateResponse, Operation } from '../models/models
 const OPERATIONS_URL = '/api/operations';
 const CALCULATE_URL = '/api/calculate';
 const NO_CONNECTION_STATUS = 0;
-const NO_CONNECTION_MESSAGE = 'אין חיבור לשרת';
-const GENERIC_ERROR_MESSAGE = 'אירעה שגיאה, נסה שוב';
+const NO_CONNECTION_MESSAGE = 'Cannot reach the server';
+const GENERIC_ERROR_MESSAGE = 'Something went wrong, please try again';
 const FIELD_ERRORS_SEPARATOR = ' · ';
 
 /** Talks to the Operations Platform API. The only place in the front end that knows the URLs. */

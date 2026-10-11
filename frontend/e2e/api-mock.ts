@@ -7,9 +7,9 @@ export interface MockApi {
 }
 
 const OPERATIONS: Operation[] = [
-  { key: 'add', name: 'חיבור', description: null, inputType: 'Number', kind: 'Expression', definition: 'a + b' },
-  { key: 'divide', name: 'חילוק', description: null, inputType: 'Number', kind: 'Expression', definition: 'a / b' },
-  { key: 'weather', name: 'טמפרטורה עכשיו', description: null, inputType: 'Coordinates', kind: 'Http', definition: '{}' },
+  { key: 'add', name: 'Addition', description: null, inputType: 'Number', kind: 'Expression', definition: 'a + b' },
+  { key: 'divide', name: 'Division', description: null, inputType: 'Number', kind: 'Expression', definition: 'a / b' },
+  { key: 'weather', name: 'Current temperature', description: null, inputType: 'Coordinates', kind: 'Http', definition: '{}' },
 ];
 
 /**
@@ -31,15 +31,15 @@ export async function mockApi(page: Page): Promise<MockApi> {
     mock.calculateRequests.push(body);
 
     if (body.operation === 'divide' && Number(body.b) === 0) {
-      await fulfillProblem(route, { status: 400, title: 'התוצאה אינה מוגדרת (למשל חילוק באפס)' });
+      await fulfillProblem(route, { status: 400, title: 'The result is undefined (for example, division by zero)' });
       return;
     }
 
     if (body.a.includes('<script')) {
       await fulfillProblem(route, {
         status: 400,
-        title: 'הבקשה לא תקינה',
-        errors: { a: ['הערך מכיל תג HTML או סקריפט אסור'] },
+        title: 'Invalid request',
+        errors: { a: ['The value contains a forbidden HTML tag or script'] },
       });
       return;
     }
@@ -48,7 +48,7 @@ export async function mockApi(page: Page): Promise<MockApi> {
     await route.fulfill({
       json: {
         result: String(sum),
-        operationName: 'חיבור',
+        operationName: 'Addition',
         durationMs: 3,
         countThisMonth: 7,
         lastThree: [

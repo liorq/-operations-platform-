@@ -20,7 +20,7 @@ public sealed class OperationServiceTests : IDisposable
 
     private static OperationDto CreateDto(string key = "plus10", string definition = "a + 10", OperationKind kind = OperationKind.Expression)
     {
-        return new OperationDto(0, key, "פלוס עשר", null, kind, InputType.Number, definition, true);
+        return new OperationDto(0, key, "Plus ten", null, kind, InputType.Number, definition, true);
     }
 
     [Fact]

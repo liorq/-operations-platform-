@@ -8,8 +8,8 @@ namespace OperationsPlatform.Core.Executors;
 /// </summary>
 public static class TextFunctions
 {
-    private const string AnagramYes = "כן, אנגרמה";
-    private const string AnagramNo = "לא אנגרמה";
+    private const string AnagramYes = "Yes, an anagram";
+    private const string AnagramNo = "Not an anagram";
 
     public static readonly string[] Names = { TextFunctionNames.Concat, TextFunctionNames.Reverse, TextFunctionNames.Levenshtein, TextFunctionNames.Anagram };
 
