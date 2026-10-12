@@ -19,6 +19,8 @@ public class GlobalExceptionHandlerTests
         "validation" => new ValidationException(new[] { new ValidationFailure("key", "bad key") }),
         "json" => new JsonException("bad definition"),
         "external" => new ExternalServiceException("service down"),
+        "network" => new HttpRequestException("connection refused"),
+        "timeout" => new TaskCanceledException("timed out"),
         "user" => new UserInputException("bad input"),
         _ => new InvalidOperationException("boom"),
     };
@@ -28,6 +30,8 @@ public class GlobalExceptionHandlerTests
     [InlineData("user", 400)]
     [InlineData("json", 400)]
     [InlineData("external", 502)]
+    [InlineData("network", 502)]
+    [InlineData("timeout", 502)]
     [InlineData("unexpected", 500)]
     public async Task MapsEachKindOfExceptionToAStatusCode(string kind, int expectedStatus)
     {

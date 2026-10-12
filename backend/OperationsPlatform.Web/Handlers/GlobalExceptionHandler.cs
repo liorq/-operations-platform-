@@ -34,9 +34,9 @@ public class GlobalExceptionHandler : IExceptionHandler
         ProblemDetails problem = CreateProblem(exception);
         problem.Instance = context.Request.Path;
 
-        if (problem.Status == StatusCodes.Status500InternalServerError)
+        if (problem.Status >= StatusCodes.Status500InternalServerError)
         {
-            _logger.LogError(exception, "Unhandled error on {Method} {Path}", context.Request.Method, context.Request.Path);
+            _logger.LogError(exception, "Server-side failure on {Method} {Path}", context.Request.Method, context.Request.Path);
         }
 
         context.Response.StatusCode = problem.Status!.Value;
@@ -66,14 +66,10 @@ public class GlobalExceptionHandler : IExceptionHandler
             return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
         }
 
-        if (exception is ExternalServiceException)
+        // The caller is still connected, so a cancellation here is the external call timing out.
+        if (exception is HttpRequestException or OperationCanceledException)
         {
-            return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
-        }
-
-        if (exception is ExternalServiceException)
-        {
-            return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
+            return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = ProblemTitles.ExternalServiceUnavailable };
         }
 
         if (exception is NCalcException or JsonException)
