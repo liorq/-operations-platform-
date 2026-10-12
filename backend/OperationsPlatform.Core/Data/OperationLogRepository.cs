@@ -22,7 +22,7 @@ public class OperationLogRepository : IOperationLogRepository
     public async Task<IReadOnlyList<OperationLog>> LatestAsync(int operationId, int take, CancellationToken cancellationToken) =>
         await _db.OperationLogs
             .AsNoTracking()
-            .Where(log => log.OperationId == operationId)
+            .Where(log => log.OperationId == operationId && log.Succeeded)
             .OrderByDescending(log => log.CreatedAtUtc)
             .ThenByDescending(log => log.Id)
             .Take(take)
@@ -30,6 +30,6 @@ public class OperationLogRepository : IOperationLogRepository
 
     public Task<int> CountSinceAsync(int operationId, DateTime fromUtc, CancellationToken cancellationToken) =>
         _db.OperationLogs.CountAsync(
-            log => log.OperationId == operationId && log.CreatedAtUtc >= fromUtc,
+            log => log.OperationId == operationId && log.Succeeded && log.CreatedAtUtc >= fromUtc,
             cancellationToken);
 }

@@ -1,6 +1,5 @@
 namespace OperationsPlatform.Domain.Entities;
 
-/// <summary>One row for every successful calculation: the history of the platform.</summary>
 public class OperationLog
 {
     public long Id { get; set; }
@@ -14,6 +13,8 @@ public class OperationLog
     public string B { get; set; } = string.Empty;
 
     public string Result { get; set; } = string.Empty;
+
+    public bool Succeeded { get; set; }
 
     public long DurationMs { get; set; }
 

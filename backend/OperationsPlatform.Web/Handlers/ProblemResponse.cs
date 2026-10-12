@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OperationsPlatform.Web.Handlers;
 
-/// <summary>Writes an error answer (a ProblemDetails) for the exception handler and for the middlewares.</summary>
 public static class ProblemResponse
 {
     public static async Task WriteAsync(HttpContext context, ProblemDetails problem, CancellationToken cancellationToken = default)

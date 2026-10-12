@@ -2,7 +2,6 @@ using OperationsPlatform.Core.Models;
 
 namespace OperationsPlatform.Core.Services.Operations;
 
-/// <summary>Add, change and remove operations.</summary>
 public interface IOperationService
 {
     Task<IReadOnlyList<OperationDto>> ListAsync(bool includeInactive, CancellationToken cancellationToken);

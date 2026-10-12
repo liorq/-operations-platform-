@@ -6,11 +6,6 @@ using OperationsPlatform.Web.Routes;
 
 namespace OperationsPlatform.Web.Middleware;
 
-/// <summary>
-/// Changing operations (every method except GET and HEAD under /api/operations) and listing the inactive ones
-/// need the header X-Admin-Key to match Admin:Key from the configuration. Reading the active ones and calculating stay open.
-/// With no key configured, every change is refused.
-/// </summary>
 public class AdminKeyMiddleware
 {
     private const string AdminKeyHeader = "X-Admin-Key";
@@ -51,8 +46,6 @@ public class AdminKeyMiddleware
 
         string givenKey = request.Headers[AdminKeyHeader].ToString();
 
-        // Both keys are hashed to the same length and compared in fixed time,
-        // so the response time reveals nothing about how much of the key was right.
         return CryptographicOperations.FixedTimeEquals(Hash(givenKey), _keyHash);
     }
 

@@ -1,6 +1,5 @@
 namespace OperationsPlatform.Common.Constants;
 
-/// <summary>How fields A and B are named inside formulas, URLs and error messages.</summary>
 public static class OperationParameters
 {
     public const string NameA = "a";

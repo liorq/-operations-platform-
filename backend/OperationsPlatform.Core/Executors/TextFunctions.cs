@@ -2,10 +2,6 @@ using OperationsPlatform.Common.Constants;
 
 namespace OperationsPlatform.Core.Executors;
 
-/// <summary>
-/// Pure static string functions: (A, B) in, text out.
-/// To offer a new text operation, add its name to <see cref="Names"/> and a case to <see cref="Run"/>.
-/// </summary>
 public static class TextFunctions
 {
     private const string AnagramYes = "Yes, an anagram";
@@ -25,10 +21,6 @@ public static class TextFunctions
 
     private static string Reverse(string text) => new string(text.Reverse().ToArray());
 
-    /// <summary>
-    /// Edit distance: the fewest inserts, deletes and replacements that turn a into b.
-    /// Dynamic programming that keeps only the previous row of the table.
-    /// </summary>
     public static int Levenshtein(string a, string b)
     {
         int[] previousRow = new int[b.Length + 1];
@@ -59,7 +51,6 @@ public static class TextFunctions
         return previousRow[b.Length];
     }
 
-    /// <summary>True when both texts have the same letters and digits, ignoring case, spaces and punctuation.</summary>
     public static bool IsAnagram(string a, string b) => Normalize(a) == Normalize(b);
 
     private static string Normalize(string text)

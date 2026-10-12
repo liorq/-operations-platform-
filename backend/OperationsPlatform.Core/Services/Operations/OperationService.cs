@@ -7,10 +7,6 @@ using OperationsPlatform.Common.Exceptions;
 
 namespace OperationsPlatform.Core.Services.Operations;
 
-/// <summary>
-/// Add, change and remove operations.
-/// This is what lets the platform grow with no new development.
-/// </summary>
 public class OperationService : IOperationService
 {
     private readonly IOperationRepository _operations;
@@ -60,7 +56,6 @@ public class OperationService : IOperationService
         return ToDto(operation);
     }
 
-    /// <summary>Deactivates the operation instead of deleting it, so the history of its past runs is kept.</summary>
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
         Operation operation = await GetOrThrowAsync(id, cancellationToken);
@@ -80,7 +75,6 @@ public class OperationService : IOperationService
     private async Task<Operation> GetOrThrowAsync(int id, CancellationToken cancellationToken) =>
         await _operations.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Operation not found");
 
-    /// <summary>Validates the dto with FluentValidation, copies it onto the entity, then asks the executor of its kind to check the definition.</summary>
     private async Task ApplyValidatedAsync(Operation operation, OperationDto dto, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(dto, cancellationToken);

@@ -5,31 +5,11 @@ using OperationsPlatform.Web.Routes;
 
 namespace OperationsPlatform.Web.Middleware;
 
-/// <summary>
-/// Checks the body of every POST and PUT to /api before any controller runs.
-/// Every string in the JSON (property names and values, at any depth) must pass the allow-list regex;
-/// if one does not, the caller gets a plain 400 with no details and the field that failed goes to the log.
-/// The rules of each field (length, format) are FluentValidation's job, in the services.
-/// A body that is not valid JSON is passed on, and model binding answers it with 400.
-/// A body larger than the limit set in PlatformServiceExtensions never gets here: Kestrel answers 413.
-/// </summary>
 public class InputValidationMiddleware
 {
     private const string RootPath = "body";
     private const int RegexTimeoutMilliseconds = 100;
 
-    /// <summary>
-    /// One allow-list for every piece of text a caller sends. Text is accepted only if EVERY character is one of:
-    /// letters of any language (Hebrew included), combining marks, digits, punctuation, space, tab, line breaks,
-    /// the symbols + = ^ | ~ $ and the degree sign, and the two invisible Hebrew direction marks.
-    /// Everything else is refused: the characters &lt; and &gt; (so no HTML tag can be written), control characters,
-    /// direction overrides, emoji and other symbols. Listing what is allowed is safer than listing what is forbidden,
-    /// because a new kind of attack is refused by default.
-    /// Known limits: a formula cannot use &lt; or &gt; (use Max, Min, Sign or Abs instead), and plain text such as "javascript:"
-    /// is allowed because it is harmless until someone places it in a link, which this platform never does.
-    /// The timeout protects the server from input built to make a pattern run for a very long time;
-    /// if it ever fires, the exception goes to GlobalExceptionHandler and the caller gets 500.
-    /// </summary>
     private static readonly Regex Allowed = new Regex(
         @"^[\p{L}\p{M}\p{N}\p{P} \t\r\n+=^|~$°\u200e\u200f]*\z",
         RegexOptions.CultureInvariant | RegexOptions.Compiled,
@@ -60,7 +40,6 @@ public class InputValidationMiddleware
                     context.Request.Path,
                     disallowedField.ReplaceLineEndings(" "));
 
-                // A plain answer with no explanation: a caller sending forbidden characters is not told which rule caught them.
                 await ProblemResponse.WriteAsync(context, StatusCodes.Status400BadRequest, ProblemTitles.InvalidRequest);
                 return;
             }
@@ -72,7 +51,6 @@ public class InputValidationMiddleware
     private static bool HasBodyToCheck(HttpRequest request) =>
         (HttpMethods.IsPost(request.Method) || HttpMethods.IsPut(request.Method)) && request.Path.StartsWithSegments(ApiRoutes.Api);
 
-    /// <summary>Returns the path of the first string that fails the allow-list, or null when all pass or the body is not JSON.</summary>
     private static async Task<string?> FindDisallowedFieldAsync(Stream body)
     {
         try

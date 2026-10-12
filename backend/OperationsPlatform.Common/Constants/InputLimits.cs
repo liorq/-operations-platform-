@@ -1,12 +1,9 @@
 namespace OperationsPlatform.Common.Constants;
 
-/// <summary>Size limits for what a caller may send. One place, so the validators, the database and the executors always agree.</summary>
 public static class InputLimits
 {
-    /// <summary>Longest allowed value for field A or field B, in characters.</summary>
     public const int MaxInputLength = 500;
 
-    /// <summary>Longest result that is saved in the history, in characters.</summary>
     public const int MaxResultLength = 2000;
 
     public const int MinKeyLength = 2;

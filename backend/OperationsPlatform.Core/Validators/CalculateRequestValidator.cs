@@ -4,7 +4,6 @@ using OperationsPlatform.Core.Models;
 
 namespace OperationsPlatform.Core.Validators;
 
-/// <summary>Rules for the body of POST /api/calculate.</summary>
 public class CalculateRequestValidator : AbstractValidator<CalculateRequest>
 {
     public CalculateRequestValidator()

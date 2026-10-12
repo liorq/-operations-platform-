@@ -18,10 +18,6 @@ namespace OperationsPlatform.Core;
 
 public static class CoreServiceExtensions
 {
-    /// <summary>
-    /// Registers everything the Core layer needs: the services, the executors, the validators,
-    /// and the data access (SQL Server through EF Core).
-    /// </summary>
     public static IServiceCollection AddCore(this IServiceCollection services, string? connectionString, string[] allowedHosts)
     {
         services.AddSingleton<TimeProvider, IsraelTimeProvider>();
@@ -48,12 +44,10 @@ public static class CoreServiceExtensions
         return services;
     }
 
-    /// <summary>Validation errors name the field the way the JSON does: "Key" becomes "key".</summary>
     private static string? ToCamelCaseName(Type type, MemberInfo? member, LambdaExpression? expression) =>
         member is null ? null : JsonNamingPolicy.CamelCase.ConvertName(member.Name);
 
     private static void ConfigureExternalClient(HttpClient client) => client.Timeout = TimeSpan.FromSeconds(ExternalApi.TimeoutSeconds);
 
-    /// <summary>A redirect could send the server to an address that is not on the allow list, so redirects are off.</summary>
     private static HttpMessageHandler CreateHandlerWithoutRedirects() => new HttpClientHandler { AllowAutoRedirect = false };
 }

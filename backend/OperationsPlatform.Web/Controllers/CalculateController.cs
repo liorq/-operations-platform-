@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OperationsPlatform.Web.Controllers;
 
-/// <summary>Runs an operation on field A and field B.</summary>
 [ApiController]
 [Route(ApiRoutes.Calculate)]
 public class CalculateController : ControllerBase
@@ -17,7 +16,6 @@ public class CalculateController : ControllerBase
         _calculation = calculation;
     }
 
-    /// <summary>Returns the result, the last 3 runs of the same operation, and how many ran this month.</summary>
     [HttpPost]
     public Task<CalculateResponse> Calculate([FromBody] CalculateRequest request, CancellationToken cancellationToken) =>
         _calculation.CalculateAsync(request, cancellationToken);

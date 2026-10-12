@@ -3,14 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+#pragma warning disable CA1814
 
 namespace OperationsPlatform.Core.Migrations
 {
-    /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -42,6 +40,7 @@ namespace OperationsPlatform.Core.Migrations
                     A = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     B = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Result = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    Succeeded = table.Column<bool>(type: "bit", nullable: false),
                     DurationMs = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -85,7 +84,6 @@ namespace OperationsPlatform.Core.Migrations
                 unique: true);
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

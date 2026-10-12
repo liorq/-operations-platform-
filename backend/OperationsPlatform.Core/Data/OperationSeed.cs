@@ -4,7 +4,6 @@ using OperationsPlatform.Domain.Enums;
 
 namespace OperationsPlatform.Core.Data;
 
-/// <summary>The operations that exist from the first run. The first EF migration inserts them.</summary>
 public static class OperationSeed
 {
     private const string WeatherDefinition =

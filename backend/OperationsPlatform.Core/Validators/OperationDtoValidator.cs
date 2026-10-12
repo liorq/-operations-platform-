@@ -4,10 +4,6 @@ using OperationsPlatform.Core.Models;
 
 namespace OperationsPlatform.Core.Validators;
 
-/// <summary>
-/// Rules for adding or changing an operation. These check the shape of the data only.
-/// Whether the definition itself works is checked by the executor of that kind, because that needs real logic.
-/// </summary>
 public class OperationDtoValidator : AbstractValidator<OperationDto>
 {
     public OperationDtoValidator()

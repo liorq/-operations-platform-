@@ -8,12 +8,6 @@ using OperationsPlatform.Common.Exceptions;
 
 namespace OperationsPlatform.Web.Handlers;
 
-/// <summary>
-/// Turns every exception into an answer. A validation failure, a user mistake or a malformed request becomes 400,
-/// a missing item 404, a duplicate 409 and a failing external service 502.
-/// Anything else becomes 500 and an Error entry in errors-.log.
-/// The caller always gets the same ProblemDetails shape and never a stack trace.
-/// </summary>
 public class GlobalExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
@@ -27,7 +21,6 @@ public class GlobalExceptionHandler : IExceptionHandler
     {
         if (exception is OperationCanceledException && context.RequestAborted.IsCancellationRequested)
         {
-            // The caller disconnected, so there is nobody to answer.
             return true;
         }
 
@@ -74,7 +67,6 @@ public class GlobalExceptionHandler : IExceptionHandler
             return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = exception.Message };
         }
 
-        // The caller is still connected, so a cancellation here is the external call timing out.
         if (exception is HttpRequestException or OperationCanceledException)
         {
             return new ProblemDetails { Status = StatusCodes.Status502BadGateway, Title = ProblemTitles.ExternalServiceUnavailable };

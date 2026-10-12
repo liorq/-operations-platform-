@@ -41,7 +41,6 @@ const ENTER_KEY = 'Enter';
 const MONTH_SEGMENTS = 14;
 const DARK_THEME = 'ink';
 
-/** Field A, an operation, field B and the result, with the month usage and the last runs below. */
 @Component({
   selector: 'app-calculator',
   imports: [FormsModule, DatePipe],

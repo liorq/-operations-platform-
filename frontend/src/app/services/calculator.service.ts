@@ -10,7 +10,6 @@ const NO_CONNECTION_MESSAGE = 'Cannot reach the server';
 const GENERIC_ERROR_MESSAGE = 'Something went wrong, please try again';
 const FIELD_ERRORS_SEPARATOR = ' · ';
 
-/** Talks to the Operations Platform API. The only place in the front end that knows the URLs. */
 @Injectable({ providedIn: 'root' })
 export class CalculatorService {
   private readonly http: HttpClient = inject(HttpClient);
@@ -23,7 +22,6 @@ export class CalculatorService {
     return this.http.post<CalculateResponse>(CALCULATE_URL, request);
   }
 
-  /** The API answers errors as ProblemDetails; its "title" is the message meant for the user. */
   getErrorMessage(error: unknown): string {
     if (!(error instanceof HttpErrorResponse)) {
       return GENERIC_ERROR_MESSAGE;

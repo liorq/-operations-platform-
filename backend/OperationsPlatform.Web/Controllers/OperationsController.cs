@@ -5,10 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OperationsPlatform.Web.Controllers;
 
-/// <summary>
-/// The list of operations, and adding, changing and removing them.
-/// Everything except the list requires the X-Admin-Key header (checked by AdminKeyMiddleware).
-/// </summary>
 [ApiController]
 [Route(ApiRoutes.Operations)]
 public class OperationsController : ControllerBase
@@ -38,7 +34,6 @@ public class OperationsController : ControllerBase
     public Task<OperationDto> Update(int id, [FromBody] OperationDto dto, CancellationToken cancellationToken) =>
         _operations.UpdateAsync(id, dto, cancellationToken);
 
-    /// <summary>Deactivates the operation. Its history stays in the database.</summary>
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {

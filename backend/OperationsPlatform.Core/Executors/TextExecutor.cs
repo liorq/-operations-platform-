@@ -4,7 +4,6 @@ using OperationsPlatform.Common.Exceptions;
 
 namespace OperationsPlatform.Core.Executors;
 
-/// <summary>String operations. The definition of the operation is the name of a function in <see cref="TextFunctions"/>.</summary>
 public class TextExecutor : IOperationExecutor
 {
     public OperationKind Kind => OperationKind.Text;

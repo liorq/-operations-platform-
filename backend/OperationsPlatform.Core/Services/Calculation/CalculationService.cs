@@ -8,10 +8,6 @@ using OperationsPlatform.Domain.Entities;
 
 namespace OperationsPlatform.Core.Services.Calculation;
 
-/// <summary>
-/// The core business logic: find the operation, run it, record the run,
-/// and return the result together with the last runs and the count since the start of the month.
-/// </summary>
 public class CalculationService : ICalculationService
 {
     private const int HistorySize = 3;
@@ -44,26 +40,38 @@ public class CalculationService : ICalculationService
         string a = request.A ?? string.Empty;
         string b = request.B ?? string.Empty;
 
+        string result = string.Empty;
+        bool succeeded = false;
         Stopwatch stopwatch = Stopwatch.StartNew();
-        string result = await _executors.Get(operation.Kind).ExecuteAsync(operation, a, b, cancellationToken);
-        long durationMs = stopwatch.ElapsedMilliseconds;
 
-        OperationLog log = new OperationLog
+        try
+        {
+            result = await _executors.Get(operation.Kind).ExecuteAsync(operation, a, b, cancellationToken);
+            succeeded = true;
+        }
+        finally
+        {
+            stopwatch.Stop();
+            await _logs.AddAndSaveAsync(CreateLog(operation, a, b, result, succeeded, stopwatch.ElapsedMilliseconds), CancellationToken.None);
+        }
+
+        IReadOnlyList<OperationLog> lastRuns = await _logs.LatestAsync(operation.Id, HistorySize, cancellationToken);
+        int countThisMonth = await _logs.CountSinceAsync(operation.Id, StartOfMonthUtc(), cancellationToken);
+
+        return new CalculateResponse(result, operation.Name, stopwatch.ElapsedMilliseconds, ToHistoryItems(lastRuns), countThisMonth);
+    }
+
+    private OperationLog CreateLog(Operation operation, string a, string b, string result, bool succeeded, long durationMs) =>
+        new OperationLog
         {
             OperationId = operation.Id,
             A = a,
             B = b,
             Result = result,
+            Succeeded = succeeded,
             DurationMs = durationMs,
             CreatedAtUtc = _clock.GetUtcNow().UtcDateTime
         };
-        await _logs.AddAndSaveAsync(log, cancellationToken);
-
-        IReadOnlyList<OperationLog> lastRuns = await _logs.LatestAsync(operation.Id, HistorySize, cancellationToken);
-        int countThisMonth = await _logs.CountSinceAsync(operation.Id, StartOfMonthUtc(), cancellationToken);
-
-        return new CalculateResponse(result, operation.Name, durationMs, ToHistoryItems(lastRuns), countThisMonth);
-    }
 
     private async Task<Operation> FindOperationAsync(string key, CancellationToken cancellationToken) =>
         await _operations.GetActiveByKeyAsync(key, cancellationToken) ?? throw new UserInputException($"The operation '{key}' does not exist");
@@ -72,7 +80,6 @@ public class CalculationService : ICalculationService
 
     private static HistoryItem ToHistoryItem(OperationLog log) => new HistoryItem(log.A, log.B, log.Result, log.DurationMs, log.CreatedAtUtc);
 
-    /// <summary>Midnight of the 1st of this month in the clock's time zone (Israel), as a UTC time for the database query.</summary>
     private DateTime StartOfMonthUtc()
     {
         DateTime localNow = _clock.GetLocalNow().DateTime;

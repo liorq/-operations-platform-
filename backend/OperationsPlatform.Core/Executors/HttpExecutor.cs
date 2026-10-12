@@ -6,13 +6,8 @@ using OperationsPlatform.Common.Exceptions;
 
 namespace OperationsPlatform.Core.Executors;
 
-/// <summary>
-/// Calls an external JSON API and returns one value from its response.
-/// This is how "weather by latitude and longitude" is delivered without writing new code.
-/// </summary>
 public class HttpExecutor : IOperationExecutor
 {
-    // Replaces the placeholders only so the address can be parsed and its host checked.
     private const string SampleValue = "0";
 
     private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);

@@ -7,10 +7,6 @@ using NCalc;
 
 namespace OperationsPlatform.Core.Executors;
 
-/// <summary>
-/// Formulas such as "a * b + 10", evaluated by NCalc.
-/// NCalc only evaluates math, so a formula cannot run code, touch files or use the network.
-/// </summary>
 public class ExpressionExecutor : IOperationExecutor
 {
     public OperationKind Kind => OperationKind.Expression;
@@ -24,7 +20,6 @@ public class ExpressionExecutor : IOperationExecutor
             throw new UserInputException($"Invalid formula: {expression.Error?.Message}");
         }
 
-        // Parsing does not notice an unknown name such as "c", so the formula is also run once on sample values (NCalc throws, and the exception handler answers 400).
         expression.Parameters[OperationParameters.NameA] = 1d;
         expression.Parameters[OperationParameters.NameB] = 2d;
 

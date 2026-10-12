@@ -13,10 +13,6 @@ public static class PlatformServiceExtensions
     private const int LoggedBodyCharacters = 4000;
     private const long MaxRequestBodyBytes = 65536;
 
-    /// <summary>
-    /// Layers: Web uses Core (the business logic and data access), which uses Domain. Common holds what all of them share.
-    /// Error handling and request logging are the ASP.NET built-ins, configured here.
-    /// </summary>
     public static IServiceCollection AddPlatform(this IServiceCollection services, IConfiguration configuration)
     {
         string? connectionString = configuration.GetConnectionString(ConfigKeys.ConnectionStringName);
@@ -34,15 +30,12 @@ public static class PlatformServiceExtensions
         return services;
     }
 
-    /// <summary>Enums travel as text ("Expression") instead of numbers (1), so the API is readable.</summary>
     private static void ConfigureJson(JsonOptions options) =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
-    /// <summary>A larger body never reaches our code: Kestrel answers 413.</summary>
     private static void ConfigureKestrel(KestrelServerOptions options) =>
         options.Limits.MaxRequestBodySize = MaxRequestBodyBytes;
 
-    /// <summary>One log entry per request that holds the request, the response, the status and the duration.</summary>
     private static void ConfigureHttpLogging(HttpLoggingOptions options)
     {
         options.LoggingFields = HttpLoggingFields.RequestMethod
