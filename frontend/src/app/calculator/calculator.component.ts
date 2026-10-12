@@ -1,7 +1,7 @@
 import { DOCUMENT, DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs';
+import { Subscription, finalize } from 'rxjs';
 import { CalculateResponse, InputType, Operation, OperationKind } from '../models/models';
 import { CalculatorService } from '../services/calculator.service';
 
@@ -62,6 +62,7 @@ export class CalculatorComponent implements OnInit {
   protected readonly isBusy = signal<boolean>(false);
 
   protected readonly expressionKind: OperationKind = 'Expression';
+  private pending?: Subscription;
 
   protected readonly glyph = computed<string>(() => GLYPHS[this.selectedKey()] ?? DEFAULT_GLYPH);
 
@@ -106,7 +107,7 @@ export class CalculatorComponent implements OnInit {
     this.isBusy.set(true);
     this.errorMessage.set('');
 
-    this.service
+    this.pending = this.service
       .calculate({ a: this.a(), b: this.b(), operation: this.selectedKey() })
       .pipe(finalize((): void => this.isBusy.set(false)))
       .subscribe({
@@ -119,6 +120,7 @@ export class CalculatorComponent implements OnInit {
   }
 
   protected select(key: string): void {
+    this.pending?.unsubscribe();
     this.selectedKey.set(key);
     this.response.set(null);
     this.errorMessage.set('');

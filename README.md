@@ -44,7 +44,7 @@ dotnet run
 
 ## מבנה
 
-ארבע שכבות: `Web → Core → Domain`, ו-`Common` שכולם משתמשים בו (עוד פרויקט הבדיקות). ה-Core מכיל את השירותים, ה-validators, מנועי הפעולות (`Executors/`) והגישה לנתונים (EF Core). הממשקים של ה-repositories ב-`Abstractions/`. כל שירות בתיקייה משלו, עם הממשק שלו. הממשק ב-`frontend/`, וה-build שלו נכתב לתוך `wwwroot` של ה-Web.
+ארבע שכבות: `Web → Core → Domain`, ו-`Common` שכולם משתמשים בו. ה-Core מכיל את השירותים, ה-validators, מנועי הפעולות (`Executors/`) והגישה לנתונים (EF Core). הממשקים של ה-repositories ב-`Abstractions/`. כל שירות בתיקייה משלו, עם הממשק שלו. הממשק ב-`frontend/`, וה-build שלו נכתב לתוך `wwwroot` של ה-Web.
 
 יצירת migration חדשה (מתוך `backend/`): `dotnet ef migrations add <Name> -p OperationsPlatform.Core -s OperationsPlatform.Web -o Migrations`
 
@@ -62,7 +62,7 @@ dotnet run
 
 ההגדרה כולה בקבוצת `Serilog` ב-`appsettings.json`: יעדים, רמות והסינון של כל קובץ.
 
-- `errors-YYYYMMDD.log`: שגיאות מערכת (exceptions לא צפויים, עם stack trace). טעויות של משתמש (400) לא נרשמות כאן.
+- `errors-YYYYMMDD.log`: שגיאות שרת (500 ו-502: exceptions לא צפויים וכשלי שירות חיצוני, עם stack trace). טעויות של משתמש (400, 404, 409) לא נרשמות כאן.
 - `http-YYYYMMDD.log`: כל request ו-response (גוף, סטטוס וזמן), ובנוסף שורת `[WRN]` לכל בקשה שנחסמה בגלל תו אסור.
 
 כל שורה נושאת את מזהה הבקשה (`RequestId`), כך ששורה ב-`errors-.log` מתחברת לבקשה ב-`http-.log`.
@@ -73,7 +73,7 @@ dotnet run
 
 ## אבטחה והגבלות
 
-- שינוי פעולות (`POST/PUT/DELETE` תחת `/api/operations`) דורש כותרת `X-Admin-Key` שזהה ל-`Admin:Key`. **אין מפתח ברירת מחדל**: ב-`appsettings.json` הוא ריק, ואז כל שינוי נדחה. בפיתוח מגדירים אותו ב-user-secrets (לא נשמר ב-git): `dotnet user-secrets set "Admin:Key" "<מפתח>" -p backend/OperationsPlatform.Web`. בהרצה אמיתית מגדירים אותו במשתנה סביבה `Admin__Key`. חישוב וקריאה פתוחים.
+- שינוי פעולות (`POST/PUT/DELETE` תחת `/api/operations`) וגם `GET /api/operations?includeInactive=true` דורשים כותרת `X-Admin-Key` שזהה ל-`Admin:Key`. **אין מפתח ברירת מחדל**: ב-`appsettings.json` הוא ריק, ואז כל שינוי נדחה. בפיתוח מגדירים אותו ב-user-secrets (לא נשמר ב-git): `dotnet user-secrets set "Admin:Key" "<מפתח>" -p backend/OperationsPlatform.Web`. בהרצה אמיתית מגדירים אותו במשתנה סביבה `Admin__Key`. חישוב וקריאה פתוחים.
 - פעולות Http יכולות לפנות רק לדומיינים ב-`AllowedHttpHosts` (ברירת מחדל: `api.open-meteo.com`), רק ב-https וללא redirects. זה מונע מהשרת לפנות לכתובות פנימיות.
 - גוף בקשה גדול מ-64KB מחזיר 413. המגבלה היא של Kestrel (`MaxRequestBodySize`), והבקשה לא מגיעה לקוד שלנו.
 
@@ -92,25 +92,6 @@ dotnet run
 - הבדיקות העסקיות (מפתח כפול, נוסחה שלא עובדת, דומיין לא מורשה) נשארות בשירותים, כי הן צריכות מסד נתונים או את מנוע הפעולה.
 - אין הגבלת קצב, ולכן אפשר לנסות לנחש את `X-Admin-Key`. המפתח חייב להיות ארוך ואקראי (32 תווים ומעלה), ואין לחשוף את השרת לאינטרנט בלי שכבת הגנה לפניו.
 - SQL injection לא נסרק כאן: כל שאילתה עוברת דרך EF Core עם פרמטרים, וזו ההגנה האמיתית.
-
-## בדיקות
-
-```bash
-cd backend && dotnet test
-```
-
-82 בדיקות: יחידה (שירותים, middleware, validators, פונקציות טקסט) ובדיקות אינטגרציה שמרימות את כל האפליקציה בזיכרון עם `WebApplicationFactory`.
-הבדיקות רצות על **SQL Server אמיתי**: כל בדיקה (או מחלקת בדיקות) יוצרת מסד זמני, מפעילה עליו את ה-migration האמיתי ומוחקת אותו בסוף. ברירת המחדל היא SQL Server Express במחשב, ובמשתנה הסביבה `TEST_SQLSERVER` אפשר לציין שרת אחר (חיבור בלי שם מסד). השירות החיצוני של מזג האוויר מוחלף ב-stub, כך שהבדיקות לא צריכות רשת.
-
-בדיקות ממשק (Playwright), 6 הרצות בדפדפן אמיתי: 5 בגודל מסך של מחשב ואחת של גלילה אופקית בגודל מסך של טלפון. ה-API מוחלף בתוך הבדיקה, כך שהן לא צריכות שרת או מסד נתונים:
-
-```bash
-cd frontend
-npx playwright install chromium
-npm run e2e
-```
-
-`.github/workflows/ci.yml` מריץ את שתי הסדרות על push ל-`main` ועל pull request, עם SQL Server כ-service container (הקובץ לא הורץ בפועל ב-GitHub).
 
 ## צילומי מסך
 

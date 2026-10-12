@@ -12,7 +12,7 @@ using OperationsPlatform.Core.Data;
 namespace OperationsPlatform.Core.Migrations
 {
     [DbContext(typeof(OperationsDbContext))]
-    [Migration("20261011045508_InitialCreate")]
+    [Migration("20261012154858_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -35,7 +35,8 @@ namespace OperationsPlatform.Core.Migrations
 
                     b.Property<string>("Definition")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(300)
@@ -218,7 +219,7 @@ namespace OperationsPlatform.Core.Migrations
                     b.HasOne("OperationsPlatform.Domain.Entities.Operation", "Operation")
                         .WithMany()
                         .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Operation");

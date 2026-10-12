@@ -10,7 +10,7 @@ namespace OperationsPlatform.Web.Handlers;
 
 /// <summary>
 /// Turns every exception into an answer. A validation failure, a user mistake or a malformed request becomes 400,
-/// and a failing external service becomes 502.
+/// a missing item 404, a duplicate 409 and a failing external service 502.
 /// Anything else becomes 500 and an Error entry in errors-.log.
 /// The caller always gets the same ProblemDetails shape and never a stack trace.
 /// </summary>
@@ -32,15 +32,13 @@ public class GlobalExceptionHandler : IExceptionHandler
         }
 
         ProblemDetails problem = CreateProblem(exception);
-        problem.Instance = context.Request.Path;
 
         if (problem.Status >= StatusCodes.Status500InternalServerError)
         {
             _logger.LogError(exception, "Server-side failure on {Method} {Path}", context.Request.Method, context.Request.Path);
         }
 
-        context.Response.StatusCode = problem.Status!.Value;
-        await context.Response.WriteAsJsonAsync(problem, problem.GetType(), cancellationToken);
+        await ProblemResponse.WriteAsync(context, problem, cancellationToken);
 
         return true;
     }
@@ -59,6 +57,16 @@ public class GlobalExceptionHandler : IExceptionHandler
         if (exception is UserInputException)
         {
             return new ProblemDetails { Status = StatusCodes.Status400BadRequest, Title = exception.Message };
+        }
+
+        if (exception is NotFoundException)
+        {
+            return new ProblemDetails { Status = StatusCodes.Status404NotFound, Title = exception.Message };
+        }
+
+        if (exception is ConflictException)
+        {
+            return new ProblemDetails { Status = StatusCodes.Status409Conflict, Title = exception.Message };
         }
 
         if (exception is ExternalServiceException)

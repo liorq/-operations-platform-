@@ -13,8 +13,6 @@ node_modules/
 
 # runtime output
 logs/
-test-results/
-playwright-report/
 
 # machine-specific
 *.user

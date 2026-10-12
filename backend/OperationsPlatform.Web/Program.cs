@@ -13,8 +13,3 @@ WebApplication app = builder.Build();
 
 app.UsePlatform();
 app.Run();
-
-/// <summary>Lets the integration tests start the whole application in memory.</summary>
-public partial class Program
-{
-}

@@ -7,8 +7,8 @@ using OperationsPlatform.Web.Routes;
 namespace OperationsPlatform.Web.Middleware;
 
 /// <summary>
-/// Changing operations (every method except GET and HEAD under /api/operations) needs the header X-Admin-Key
-/// to match Admin:Key from the configuration. Reading and calculating stay open to everyone.
+/// Changing operations (every method except GET and HEAD under /api/operations) and listing the inactive ones
+/// need the header X-Admin-Key to match Admin:Key from the configuration. Reading the active ones and calculating stay open.
 /// With no key configured, every change is refused.
 /// </summary>
 public class AdminKeyMiddleware
@@ -28,7 +28,7 @@ public class AdminKeyMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        if (IsChangeToOperations(context.Request) && !HasValidKey(context.Request))
+        if (NeedsKey(context.Request) && !HasValidKey(context.Request))
         {
             await ProblemResponse.WriteAsync(context, StatusCodes.Status401Unauthorized, ProblemTitles.AdminKeyRequired);
             return;
@@ -37,9 +37,10 @@ public class AdminKeyMiddleware
         await _next(context);
     }
 
-    private static bool IsChangeToOperations(HttpRequest request)
-        => !(HttpMethods.IsGet(request.Method) || HttpMethods.IsHead(request.Method))
-            && request.Path.StartsWithSegments(ApiRoutes.Operations);
+    private static bool NeedsKey(HttpRequest request)
+        => request.Path.StartsWithSegments(ApiRoutes.Operations)
+            && (!(HttpMethods.IsGet(request.Method) || HttpMethods.IsHead(request.Method))
+                || request.Query.ContainsKey(ApiRoutes.IncludeInactiveQuery));
 
     private bool HasValidKey(HttpRequest request)
     {

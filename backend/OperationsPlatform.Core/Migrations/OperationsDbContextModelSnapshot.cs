@@ -32,7 +32,8 @@ namespace OperationsPlatform.Core.Migrations
 
                     b.Property<string>("Definition")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(300)
@@ -215,7 +216,7 @@ namespace OperationsPlatform.Core.Migrations
                     b.HasOne("OperationsPlatform.Domain.Entities.Operation", "Operation")
                         .WithMany()
                         .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Operation");

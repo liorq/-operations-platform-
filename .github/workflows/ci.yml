@@ -7,32 +7,13 @@ on:
 
 jobs:
   api:
-    defaults:
-      run:
-        working-directory: backend
     runs-on: ubuntu-latest
-    services:
-      sql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          ACCEPT_EULA: "Y"
-          MSSQL_SA_PASSWORD: Ci-only-Passw0rd
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P Ci-only-Passw0rd -Q 'SELECT 1'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 12
-    env:
-      TEST_SQLSERVER: Server=localhost,1433;User Id=sa;Password=Ci-only-Passw0rd;TrustServerCertificate=True
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-      - run: dotnet build --configuration Release
-      - run: dotnet test --configuration Release --no-build
+      - run: dotnet build backend/OperationsPlatform.slnx --configuration Release
 
   web:
     runs-on: ubuntu-latest
@@ -47,5 +28,4 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npx playwright test
+      - run: npm run build

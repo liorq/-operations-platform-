@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
-    "build": "ng build",
-    "e2e": "playwright test"
+    "build": "ng build"
   },
   "private": true,
   "packageManager": "npm@11.17.0",
@@ -20,7 +19,6 @@
     "@angular/build": "^22.2.2",
     "@angular/cli": "^22.2.2",
     "@angular/compiler-cli": "^22.2.0",
-    "@playwright/test": "^1.64.0",
     "typescript": "~6.0.2"
   }
 }

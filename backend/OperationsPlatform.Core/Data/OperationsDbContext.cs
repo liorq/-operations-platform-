@@ -28,6 +28,7 @@ public class OperationsDbContext : DbContext
             builder.Property(nameof(Operation.Key)).HasMaxLength(InputLimits.MaxKeyLength).IsRequired();
             builder.Property(nameof(Operation.Name)).HasMaxLength(InputLimits.MaxNameLength).IsRequired();
             builder.Property(nameof(Operation.Description)).HasMaxLength(InputLimits.MaxDescriptionLength);
+            builder.Property(nameof(Operation.Definition)).HasMaxLength(InputLimits.MaxDefinitionLength).IsRequired();
 
             // Enums are stored as readable text instead of numbers.
             builder.Property(nameof(Operation.Kind)).HasConversion<string>().HasMaxLength(InputLimits.MaxEnumTextLength);
@@ -52,7 +53,7 @@ public class OperationsDbContext : DbContext
             builder.HasOne(nameof(OperationLog.Operation))
                 .WithMany()
                 .HasForeignKey(nameof(OperationLog.OperationId))
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

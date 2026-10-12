@@ -24,7 +24,7 @@ namespace OperationsPlatform.Core.Migrations
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     Kind = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     InputType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Definition = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Definition = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -53,7 +53,7 @@ namespace OperationsPlatform.Core.Migrations
                         column: x => x.OperationId,
                         principalTable: "Operations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(

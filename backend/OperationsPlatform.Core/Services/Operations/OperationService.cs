@@ -73,12 +73,12 @@ public class OperationService : IOperationService
     {
         if (await _operations.KeyExistsAsync(key, exceptId, cancellationToken))
         {
-            throw new UserInputException($"The key '{key}' already exists");
+            throw new ConflictException($"The key '{key}' already exists");
         }
     }
 
     private async Task<Operation> GetOrThrowAsync(int id, CancellationToken cancellationToken) =>
-        await _operations.GetByIdAsync(id, cancellationToken) ?? throw new UserInputException("Operation not found");
+        await _operations.GetByIdAsync(id, cancellationToken) ?? throw new NotFoundException("Operation not found");
 
     /// <summary>Validates the dto with FluentValidation, copies it onto the entity, then asks the executor of its kind to check the definition.</summary>
     private async Task ApplyValidatedAsync(Operation operation, OperationDto dto, CancellationToken cancellationToken)
